@@ -10,5 +10,8 @@ namespace Q1.Util
         StreamReader ReadAsync(string filePath);
 
         StreamWriter CreateFile(string filePath);
+
+        Type DiscoverTypeOfData(string file1, string file2);
+        Type DiscoverTypeOfData(string data);
     }
 }

@@ -7,15 +7,31 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Data\ValidFile1.txt" />
-    <None Remove="Data\ValidFile2.txt" />
+    <None Remove="Data\DateTimeDataFile1.txt" />
+    <None Remove="Data\DateTimeDataFile2.txt" />
+    <None Remove="Data\IntegerDataFile1.txt" />
+    <None Remove="Data\IntegerDataFile2.txt" />
+    <None Remove="Data\StringDataFile1.txt" />
+    <None Remove="Data\StringDataFile2.txt" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Data\ValidFile2.txt">
+    <EmbeddedResource Include="Data\DateTimeDataFile1.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Data\ValidFile1.txt">
+    <EmbeddedResource Include="Data\DateTimeDataFile2.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\StringDataFile1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\IntegerDataFile2.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\StringDataFile2.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\IntegerDataFile1.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

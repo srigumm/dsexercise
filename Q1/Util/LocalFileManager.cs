@@ -14,6 +14,29 @@ namespace Q1.Util
             return new StreamWriter(tempFile);
         }
 
+        public Type DiscoverTypeOfData(string file1, string file2)
+        {
+            using(var sr = new StreamReader(file1))
+            {
+                string firstLine = sr.ReadLine(); //First Line.
+
+                return DiscoverTypeOfData(firstLine);
+                
+            }
+        }
+
+        private bool isInteger(string firstLine)
+        {
+            int i = -1;
+            return Int32.TryParse(firstLine, out i);
+        }
+
+        private bool isDateTime(string firstLine)
+        {
+            DateTime dateTime = DateTime.MinValue;
+            return DateTime.TryParse(firstLine, out dateTime);
+        }
+
         public StreamReader ReadAsync(string filePath)
         {
             if (!File.Exists(filePath))
@@ -21,6 +44,22 @@ namespace Q1.Util
                 throw new Exception("File doesn't exist!!");
             }
             return new StreamReader(filePath);
+        }
+
+        public Type DiscoverTypeOfData(string data)
+        {
+            if (isDateTime(data))
+            {
+                return typeof(DateTime);
+            }
+            else if (isInteger(data))
+            {
+                return typeof(Int32);
+            }
+            else
+            {
+                return typeof(string);
+            }
         }
     }
 }

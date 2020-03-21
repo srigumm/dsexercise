@@ -9,11 +9,13 @@ namespace Q1
     public class SortedFilesMergeUtil : IFileMerge,IDisposable
     {
         private readonly IFileManager fileManager;
+        private readonly ICompareUtil compareUtil;
         const string mergedFileNameFormat = "Merged_File.txt";
 
-        public SortedFilesMergeUtil(IFileManager fileManager)
+        public SortedFilesMergeUtil(IFileManager fileManager, ICompareUtil compareUtil)
         {
             this.fileManager = fileManager;
+            this.compareUtil = compareUtil;
         }
         public void Merge(string file1, string file2)
         {
@@ -28,6 +30,8 @@ namespace Q1
             {
                 using (var file2Reader = fileManager.ReadAsync(file2)) //stream file2 content
                 {
+                    Type typeOfDateInFiles = fileManager.DiscoverTypeOfData(file1, file2);
+                    Func<string, string, bool> compareFunc = this.compareUtil.getComparer(typeOfDateInFiles);
 
                     _mergeFileStream = fileManager.CreateFile(mergedFileNameFormat);
                     {
@@ -37,13 +41,27 @@ namespace Q1
                             if (advanceFile1)
                             {
                                 rowFile1 = file1Reader.ReadLine();
+                                
                             }
                             if (advanceFile2) { 
                                 rowFile2 = file2Reader.ReadLine();
                             }
-                            
-                            
-                            if(IsInOrder(rowFile1, rowFile2))
+
+                            if (!string.IsNullOrEmpty(rowFile1))
+                            {
+                                rowFile1 = rowFile1.Trim();
+                            }
+                            if(!string.IsNullOrEmpty(rowFile2))
+                            {
+                                rowFile2 = rowFile2.Trim();
+                            }
+                            //TODO
+                            //if((string.IsNullOrEmpty(rowFile1) || rowFile2 == Environment.NewLine) && (string.IsNullOrEmpty(rowFile2) || rowFile2==Environment.NewLine)) //when both are empty, advance both pointers
+                            //{
+                            //    advanceFile1 = true;
+                            //    advanceFile2 = true;
+                            //}
+                            if (compareFunc(rowFile1, rowFile2))
                             {
                                 Console.WriteLine(rowFile1);
                                 if (!string.IsNullOrEmpty(rowFile1))

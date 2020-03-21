@@ -16,6 +16,7 @@ namespace Q1.Util
 
         public Type DiscoverTypeOfData(string file1, string file2)
         {
+            //TODO:: For now, look at first file content and identify the type of data, but this logic can be modified to consider content of both files.
             using(var sr = new StreamReader(file1))
             {
                 string firstLine = sr.ReadLine(); //First Line.

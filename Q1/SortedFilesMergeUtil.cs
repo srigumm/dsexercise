@@ -10,7 +10,7 @@ namespace Q1
     {
         private readonly IFileManager fileManager;
         private readonly ICompareUtil compareUtil;
-        const string mergedFileNameFormat = "Merged_File.txt";
+        const string mergedFileNameFormat = "Merged_File.txt"; //TODO:: Can be Merge_<<File1>>_<<File2>>.txt
 
         public SortedFilesMergeUtil(IFileManager fileManager, ICompareUtil compareUtil)
         {
@@ -26,18 +26,20 @@ namespace Q1
             bool advanceFile2 = true;
 
 
-            using (var file1Reader = fileManager.ReadAsync(file1)) //stream file1 content
+            using (var file1Reader = fileManager.ReadAsync(file1)) //stream file1 content without reading entire file into memory
             {
-                using (var file2Reader = fileManager.ReadAsync(file2)) //stream file2 content
+                using (var file2Reader = fileManager.ReadAsync(file2)) //stream file2 content without reading entire file into memory
                 {
+                    //Discover data type of input files.
                     Type typeOfDateInFiles = fileManager.DiscoverTypeOfData(file1, file2);
-                    Func<string, string, bool> compareFunc = this.compareUtil.getComparer(typeOfDateInFiles);
+
+                    Func<string, string, bool> IsInOrderFunc = this.compareUtil.getComparer(typeOfDateInFiles);
 
                     _mergeFileStream = fileManager.CreateFile(mergedFileNameFormat);
+
+                    while( (!file1Reader.EndOfStream || (advanceFile2 && file1Reader.EndOfStream)) &&
+                           (!file2Reader.EndOfStream || (advanceFile1 && file2Reader.EndOfStream))) 
                     {
-                        while( (!file1Reader.EndOfStream || (advanceFile2 && file1Reader.EndOfStream ) ) && 
-                            (!file2Reader.EndOfStream || (advanceFile1 && file2Reader.EndOfStream)))
-                        {
                             if (advanceFile1)
                             {
                                 rowFile1 = file1Reader.ReadLine();
@@ -47,26 +49,18 @@ namespace Q1
                                 rowFile2 = file2Reader.ReadLine();
                             }
 
-                            if (!string.IsNullOrEmpty(rowFile1))
-                            {
-                                rowFile1 = rowFile1.Trim();
-                            }
-                            if(!string.IsNullOrEmpty(rowFile2))
-                            {
-                                rowFile2 = rowFile2.Trim();
-                            }
                             //TODO
                             //if((string.IsNullOrEmpty(rowFile1) || rowFile2 == Environment.NewLine) && (string.IsNullOrEmpty(rowFile2) || rowFile2==Environment.NewLine)) //when both are empty, advance both pointers
                             //{
                             //    advanceFile1 = true;
                             //    advanceFile2 = true;
                             //}
-                            if (compareFunc(rowFile1, rowFile2))
+                            if (IsInOrderFunc(rowFile1, rowFile2))
                             {
                                 Console.WriteLine(rowFile1);
                                 if (!string.IsNullOrEmpty(rowFile1))
                                 {
-                                    _mergeFileStream.WriteLine(rowFile1);
+                                    _mergeFileStream.WriteLine(rowFile1.Trim());
                                 }
                                 advanceFile1 = true;
                                 advanceFile2 = false;
@@ -76,35 +70,42 @@ namespace Q1
                                 Console.WriteLine(rowFile2);
                                 if (!string.IsNullOrEmpty(rowFile2))
                                 {
-                                    _mergeFileStream.WriteLine(rowFile2);
+                                    _mergeFileStream.WriteLine(rowFile2.Trim());
                                 }
                                 advanceFile2 = true;
                                 advanceFile1 = false;
                             }
                         }
-                        if (advanceFile1 && file1Reader.EndOfStream)
+                        if (advanceFile1 && file1Reader.EndOfStream) //reached end of file1, write all rows in file2 directly
                         {
                             if (!string.IsNullOrEmpty(rowFile2))
                             {
-                                _mergeFileStream.WriteLine(rowFile2);
+                                _mergeFileStream.WriteLine(rowFile2.Trim());
                             }
                             while (!file2Reader.EndOfStream)
                             {
-                                _mergeFileStream.WriteLine(file2Reader.ReadLine());
+                                rowFile2 = file2Reader.ReadLine();
+                                if (!string.IsNullOrEmpty(rowFile2))
+                                {
+                                    _mergeFileStream.WriteLine(rowFile2.Trim());
+                                }
                             }
                         }
-                        else
+                        else //reached end of file2, write all rows in file1 directly
                         {
-                            if (!string.IsNullOrEmpty(rowFile2))
-                            {
-                                _mergeFileStream.WriteLine(rowFile1);
-                            }
-                            while (!file1Reader.EndOfStream)
-                            {
-                                _mergeFileStream.WriteLine(file1Reader.ReadLine());
-                            }
+                                if (!string.IsNullOrEmpty(rowFile1))
+                                {
+                                    _mergeFileStream.WriteLine(rowFile1);
+                                }
+                                while (!file1Reader.EndOfStream)
+                                {
+                                    rowFile1 = file1Reader.ReadLine();
+                                    if (!string.IsNullOrEmpty(rowFile1))
+                                    {
+                                        _mergeFileStream.WriteLine(rowFile1.Trim());
+                                    }
+                                }
                         }
-                    }
                 }
             }
         }
@@ -113,21 +114,6 @@ namespace Q1
         {
             using (_mergeFileStream) { }
         }
-
-        private Func<string, string, bool> IsInOrder = (s1, s2) =>
-          {
-              if(!string.IsNullOrEmpty(s1) && !string.IsNullOrEmpty(s2))
-              {
-                  //Try int
-                  int i = -1;
-                  int j = -1;
-                  if(Int32.TryParse(s1,out i) && Int32.TryParse(s2, out j))
-                  {
-                      return i <= j;
-                  }
-              }
-              return true;
-          };
         private StreamWriter _mergeFileStream;
     }
 }

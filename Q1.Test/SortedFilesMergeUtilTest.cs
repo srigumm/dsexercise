@@ -128,8 +128,7 @@ namespace Q1.Test
             sw.Flush();
             ms.Position = 0;
             var sr = new StreamReader(ms);
-            //sr.ReadToEnd().Replace(Environment.NewLine, "|").Should().Be(@"1|2|3|4|5|6|"); TODO
-            sr.ReadToEnd().Replace(Environment.NewLine, "|").Should().Be(@"1|2|3|4|5|6||");
+            sr.ReadToEnd().Replace(Environment.NewLine, "|").Should().Be(@"1|2|3|4|5|6|");
         }
         [TestMethod]
         public void Should_Merge_Two_Files_With_IntegerData_Set5()

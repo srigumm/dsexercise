@@ -29,7 +29,7 @@ namespace Q1.Test.Util
         public void Should_Return_StreamReader()
         {
             //Arrange
-            var validFilePath = @"Data/ValidFile1.txt";
+            var validFilePath = @"Data/IntegerDataFile1.txt";
             var fileManager = new LocalFileManager();
 
             //Act
@@ -43,7 +43,7 @@ namespace Q1.Test.Util
         public void Should_Discover_DataType_From_FileContent()
         {
             //Arrange
-            var validFilePath = @"Data/ValidFile1.txt";
+            var validFilePath = @"Data/IntegerDataFile1.txt";
             var fileManager = new LocalFileManager();
 
             //Act

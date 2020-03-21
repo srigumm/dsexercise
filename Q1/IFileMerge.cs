@@ -6,6 +6,6 @@ namespace Q1
 {
     interface IFileMerge
     {
-        void Merge(string file1, string file2);
+        void Merge(string file1Path, string file2Path);
     }
 }

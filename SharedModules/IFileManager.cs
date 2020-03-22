@@ -7,7 +7,7 @@ namespace SharedModules
 {
     public interface IFileManager
     {
-        StreamReader ReadAsync(string filePath);
+        StreamReader Read(string filePath);
 
         StreamWriter CreateFile(string filePath);
 

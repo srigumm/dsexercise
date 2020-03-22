@@ -47,6 +47,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Q1\Q1.csproj" />
+    <ProjectReference Include="..\SharedModules\SharedModules.csproj" />
   </ItemGroup>
 
 </Project>

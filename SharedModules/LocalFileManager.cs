@@ -43,7 +43,7 @@ namespace SharedModules
             return DateTime.TryParse(firstLine, out dateTime);
         }
 
-        public StreamReader ReadAsync(string filePath)
+        public StreamReader Read(string filePath)
         {
             if (!File.Exists(filePath))
             {

@@ -1,11 +1,8 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Q1.Util;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Q1.Test.Util
+namespace SharedModules.Test
 {
     [TestClass]
     public class LocalFileManagerTest
@@ -18,7 +15,7 @@ namespace Q1.Test.Util
             var fileManager = new LocalFileManager();
 
             //Act
-            Action act = () => fileManager.ReadAsync(invalidFilePath);
+            Action act = () => fileManager.Read(invalidFilePath);
 
             //Assert
             act.Should().Throw<Exception>().WithMessage("File doesn't exist!!");
@@ -33,7 +30,7 @@ namespace Q1.Test.Util
             var fileManager = new LocalFileManager();
 
             //Act
-            var reader = fileManager.ReadAsync(validFilePath);
+            var reader = fileManager.Read(validFilePath);
 
             //Assert
             reader.Should().NotBeNull();

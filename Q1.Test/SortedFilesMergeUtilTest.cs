@@ -2,6 +2,7 @@ using FakeItEasy;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Q1.Util;
+using SharedModules;
 using System;
 using System.IO;
 using System.Text;
@@ -23,14 +24,14 @@ namespace Q1.Test
             var ms = new MemoryStream();
             var sw = new StreamWriter(ms);
             int i = 0;
-            A.CallTo(() => fakeFileManager.ReadAsync(@"SomeFile1.txt")).Returns(GenerateStreamFromString(" 1 | 3 | 5 |"));
-            A.CallTo(() => fakeFileManager.ReadAsync(@"SomeFile2.txt")).Returns(GenerateStreamFromString(" 2 | 4 | 6 |"));
+            A.CallTo(() => fakeFileManager.Read(@"SomeFile1.txt")).Returns(GenerateStreamFromString(" 1 | 3 | 5 |"));
+            A.CallTo(() => fakeFileManager.Read(@"SomeFile2.txt")).Returns(GenerateStreamFromString(" 2 | 4 | 6 |"));
             A.CallTo(() => fakeFileManager.DiscoverTypeOfData("SomeFile1.txt", "SomeFile2.txt")).Returns(typeof(int));
             A.CallTo(() => fakeFileManager.CreateFile(A<string>.Ignored)).Returns(sw);
 
             //Act
             var fileMergeUtil = new SortedFilesMergeUtil(fakeFileManager, compareUtil);
-            fileMergeUtil.Merge(@"SomeFile1.txt", "SomeFile2.txt");
+            fileMergeUtil.MergeAsync(@"SomeFile1.txt", "SomeFile2.txt");
 
             //Assert
             sw.Flush();
@@ -46,14 +47,14 @@ namespace Q1.Test
             var ms = new MemoryStream();
             var sw = new StreamWriter(ms);
 
-            A.CallTo(() => fakeFileManager.ReadAsync(@"SomeFile1.txt")).Returns(GenerateStreamFromString("1|2|3|"));
-            A.CallTo(() => fakeFileManager.ReadAsync(@"SomeFile2.txt")).Returns(GenerateStreamFromString("4|5|6|"));
+            A.CallTo(() => fakeFileManager.Read(@"SomeFile1.txt")).Returns(GenerateStreamFromString("1|2|3|"));
+            A.CallTo(() => fakeFileManager.Read(@"SomeFile2.txt")).Returns(GenerateStreamFromString("4|5|6|"));
             A.CallTo(() => fakeFileManager.CreateFile(A<string>.Ignored)).Returns(sw);
             A.CallTo(() => fakeFileManager.DiscoverTypeOfData("SomeFile1.txt", "SomeFile2.txt")).Returns(typeof(int));
 
             //Act
             var fileMergeUtil = new SortedFilesMergeUtil(fakeFileManager, new CompareUtil());
-            fileMergeUtil.Merge(@"SomeFile1.txt", "SomeFile2.txt");
+            fileMergeUtil.MergeAsync(@"SomeFile1.txt", "SomeFile2.txt");
 
             //Assert
             sw.Flush();
@@ -69,14 +70,14 @@ namespace Q1.Test
             var ms = new MemoryStream();
             var sw = new StreamWriter(ms);
 
-            A.CallTo(() => fakeFileManager.ReadAsync(@"SomeFile1.txt")).Returns(GenerateStreamFromString("1|2|3|4|5|"));
-            A.CallTo(() => fakeFileManager.ReadAsync(@"SomeFile2.txt")).Returns(GenerateStreamFromString("6|"));
+            A.CallTo(() => fakeFileManager.Read(@"SomeFile1.txt")).Returns(GenerateStreamFromString("1|2|3|4|5|"));
+            A.CallTo(() => fakeFileManager.Read(@"SomeFile2.txt")).Returns(GenerateStreamFromString("6|"));
             A.CallTo(() => fakeFileManager.CreateFile(A<string>.Ignored)).Returns(sw);
             A.CallTo(() => fakeFileManager.DiscoverTypeOfData("SomeFile1.txt", "SomeFile2.txt")).Returns(typeof(int));
 
             //Act
             var fileMergeUtil = new SortedFilesMergeUtil(fakeFileManager, new CompareUtil());
-            fileMergeUtil.Merge(@"SomeFile1.txt", "SomeFile2.txt");
+            fileMergeUtil.MergeAsync(@"SomeFile1.txt", "SomeFile2.txt");
 
             //Assert
             sw.Flush();
@@ -92,14 +93,14 @@ namespace Q1.Test
             var ms = new MemoryStream();
             var sw = new StreamWriter(ms);
 
-            A.CallTo(() => fakeFileManager.ReadAsync(@"SomeFile1.txt")).Returns(GenerateStreamFromString("1|"));
-            A.CallTo(() => fakeFileManager.ReadAsync(@"SomeFile2.txt")).Returns(GenerateStreamFromString("2|3|4|5|6|"));
+            A.CallTo(() => fakeFileManager.Read(@"SomeFile1.txt")).Returns(GenerateStreamFromString("1|"));
+            A.CallTo(() => fakeFileManager.Read(@"SomeFile2.txt")).Returns(GenerateStreamFromString("2|3|4|5|6|"));
             A.CallTo(() => fakeFileManager.CreateFile(A<string>.Ignored)).Returns(sw);
             A.CallTo(() => fakeFileManager.DiscoverTypeOfData("SomeFile1.txt", "SomeFile2.txt")).Returns(typeof(int));
 
             //Act
             var fileMergeUtil = new SortedFilesMergeUtil(fakeFileManager, new CompareUtil());
-            fileMergeUtil.Merge(@"SomeFile1.txt", "SomeFile2.txt");
+            fileMergeUtil.MergeAsync(@"SomeFile1.txt", "SomeFile2.txt");
 
             //Assert
             sw.Flush();
@@ -115,14 +116,14 @@ namespace Q1.Test
             var ms = new MemoryStream();
             var sw = new StreamWriter(ms);
 
-            A.CallTo(() => fakeFileManager.ReadAsync(@"SomeFile1.txt")).Returns(GenerateStreamFromString("|"));
-            A.CallTo(() => fakeFileManager.ReadAsync(@"SomeFile2.txt")).Returns(GenerateStreamFromString("1|2|3|4|5|6|"));
+            A.CallTo(() => fakeFileManager.Read(@"SomeFile1.txt")).Returns(GenerateStreamFromString("|"));
+            A.CallTo(() => fakeFileManager.Read(@"SomeFile2.txt")).Returns(GenerateStreamFromString("1|2|3|4|5|6|"));
             A.CallTo(() => fakeFileManager.CreateFile(A<string>.Ignored)).Returns(sw);
             A.CallTo(() => fakeFileManager.DiscoverTypeOfData("SomeFile1.txt", "SomeFile2.txt")).Returns(typeof(int));
 
             //Act
             var fileMergeUtil = new SortedFilesMergeUtil(fakeFileManager, new CompareUtil());
-            fileMergeUtil.Merge(@"SomeFile1.txt", "SomeFile2.txt");
+            fileMergeUtil.MergeAsync(@"SomeFile1.txt", "SomeFile2.txt");
 
             //Assert
             sw.Flush();
@@ -138,14 +139,14 @@ namespace Q1.Test
             var ms = new MemoryStream();
             var sw = new StreamWriter(ms);
 
-            A.CallTo(() => fakeFileManager.ReadAsync(@"SomeFile1.txt")).Returns(GenerateStreamFromString("1|2|3|4|5|6|"));
-            A.CallTo(() => fakeFileManager.ReadAsync(@"SomeFile2.txt")).Returns(GenerateStreamFromString("|"));
+            A.CallTo(() => fakeFileManager.Read(@"SomeFile1.txt")).Returns(GenerateStreamFromString("1|2|3|4|5|6|"));
+            A.CallTo(() => fakeFileManager.Read(@"SomeFile2.txt")).Returns(GenerateStreamFromString("|"));
             A.CallTo(() => fakeFileManager.CreateFile(A<string>.Ignored)).Returns(sw);
             A.CallTo(() => fakeFileManager.DiscoverTypeOfData("SomeFile1.txt", "SomeFile2.txt")).Returns(typeof(int));
 
             //Act
             var fileMergeUtil = new SortedFilesMergeUtil(fakeFileManager, new CompareUtil());
-            fileMergeUtil.Merge(@"SomeFile1.txt", "SomeFile2.txt");
+            fileMergeUtil.MergeAsync(@"SomeFile1.txt", "SomeFile2.txt");
 
             //Assert
             sw.Flush();
@@ -167,14 +168,14 @@ namespace Q1.Test
             var ms = new MemoryStream();
             var sw = new StreamWriter(ms);
             int i = 0;
-            A.CallTo(() => fakeFileManager.ReadAsync(@"SomeFile1.txt")).Returns(GenerateStreamFromString(" 01/12/1987 | 01/14/1987 | 01/16/1987 |"));
-            A.CallTo(() => fakeFileManager.ReadAsync(@"SomeFile2.txt")).Returns(GenerateStreamFromString(" 01/13/1987 | 01/15/1987 | 01/17/1987 |"));
+            A.CallTo(() => fakeFileManager.Read(@"SomeFile1.txt")).Returns(GenerateStreamFromString(" 01/12/1987 | 01/14/1987 | 01/16/1987 |"));
+            A.CallTo(() => fakeFileManager.Read(@"SomeFile2.txt")).Returns(GenerateStreamFromString(" 01/13/1987 | 01/15/1987 | 01/17/1987 |"));
             A.CallTo(() => fakeFileManager.DiscoverTypeOfData("SomeFile1.txt", "SomeFile2.txt")).Returns(typeof(DateTime));
             A.CallTo(() => fakeFileManager.CreateFile(A<string>.Ignored)).Returns(sw);
 
             //Act
             var fileMergeUtil = new SortedFilesMergeUtil(fakeFileManager, compareUtil);
-            fileMergeUtil.Merge(@"SomeFile1.txt", "SomeFile2.txt");
+            fileMergeUtil.MergeAsync(@"SomeFile1.txt", "SomeFile2.txt");
 
             //Assert
             sw.Flush();
@@ -196,14 +197,14 @@ namespace Q1.Test
             var ms = new MemoryStream();
             var sw = new StreamWriter(ms);
             int i = 0;
-            A.CallTo(() => fakeFileManager.ReadAsync(@"SomeFile1.txt")).Returns(GenerateStreamFromString(" aa | ac | ae |"));
-            A.CallTo(() => fakeFileManager.ReadAsync(@"SomeFile2.txt")).Returns(GenerateStreamFromString(" ab | ad | af |"));
+            A.CallTo(() => fakeFileManager.Read(@"SomeFile1.txt")).Returns(GenerateStreamFromString(" aa | ac | ae |"));
+            A.CallTo(() => fakeFileManager.Read(@"SomeFile2.txt")).Returns(GenerateStreamFromString(" ab | ad | af |"));
             A.CallTo(() => fakeFileManager.DiscoverTypeOfData("SomeFile1.txt", "SomeFile2.txt")).Returns(typeof(string));
             A.CallTo(() => fakeFileManager.CreateFile(A<string>.Ignored)).Returns(sw);
 
             //Act
             var fileMergeUtil = new SortedFilesMergeUtil(fakeFileManager, compareUtil);
-            fileMergeUtil.Merge(@"SomeFile1.txt", "SomeFile2.txt");
+            fileMergeUtil.MergeAsync(@"SomeFile1.txt", "SomeFile2.txt");
 
             //Assert
             sw.Flush();

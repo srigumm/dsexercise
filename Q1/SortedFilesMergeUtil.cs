@@ -1,4 +1,5 @@
 ﻿using Q1.Util;
+using SharedModules;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,7 +18,7 @@ namespace Q1
             this.fileManager = fileManager;
             this.compareUtil = compareUtil;
         }
-        public void Merge(string file1, string file2)
+        public async System.Threading.Tasks.Task MergeAsync(string file1, string file2)
         {
             string rowFile1 = string.Empty;
             string rowFile2 = string.Empty;
@@ -26,9 +27,9 @@ namespace Q1
             bool advanceFile2 = true;
 
 
-            using (var file1Reader = fileManager.ReadAsync(file1)) //stream file1 content without reading entire file into memory
+            using (var file1Reader = fileManager.Read(file1)) //stream file1 content without reading entire file into memory
             {
-                using (var file2Reader = fileManager.ReadAsync(file2)) //stream file2 content without reading entire file into memory
+                using (var file2Reader = fileManager.Read(file2)) //stream file2 content without reading entire file into memory
                 {
                     //Discover data type of input files.
                     Type typeOfDateInFiles = fileManager.DiscoverTypeOfData(file1, file2);
@@ -42,11 +43,11 @@ namespace Q1
                     {
                             if (advanceFile1)
                             {
-                                rowFile1 = file1Reader.ReadLine();
+                                rowFile1 = await file1Reader.ReadLineAsync();
                                 
                             }
                             if (advanceFile2) { 
-                                rowFile2 = file2Reader.ReadLine();
+                                rowFile2 = await file2Reader.ReadLineAsync();
                             }
 
                             //TODO

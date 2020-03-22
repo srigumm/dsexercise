@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Q1
 {
     interface IFileMerge
     {
-        void Merge(string file1Path, string file2Path);
+        Task MergeAsync(string file1Path, string file2Path);
     }
 }

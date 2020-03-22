@@ -22,7 +22,7 @@ namespace Q2.Test
             var fileStatsCalculator = new CusipStatsCalculator();
             var cusipFileUtilObj = new CusipFileUtil(fileManager, fileStatsCalculator);
 
-            A.CallTo(() => fileManager.ReadAsync("SomeValidFile.txt")).Returns(GenerateStreamFromString("DUMMYCUSIP-With-NoData1|CUSIP-1|11.11|21.56|9.3|17.18|99.99|DUMMYCUSIP-With-NoData-2|"));
+            A.CallTo(() => fileManager.Read("SomeValidFile.txt")).Returns(GenerateStreamFromString("DUMMYCUSIP-With-NoData1|CUSIP-1|11.11|21.56|9.3|17.18|99.99|DUMMYCUSIP-With-NoData-2|"));
 
             //Act
             IList<CusipResult> results = cusipFileUtilObj.ExtractStats("SomeValidFile.txt");
@@ -41,7 +41,7 @@ namespace Q2.Test
             var fileStatsCalculator = new CusipStatsCalculator();
             var cusipFileUtilObj = new CusipFileUtil(fileManager,fileStatsCalculator);
 
-            A.CallTo(() => fileManager.ReadAsync("SomeValidFile.txt")).Returns(GenerateStreamFromString("CUSIP-1|11.11|21.56|9.3|17.18|99.99|"));
+            A.CallTo(() => fileManager.Read("SomeValidFile.txt")).Returns(GenerateStreamFromString("CUSIP-1|11.11|21.56|9.3|17.18|99.99|"));
 
             //Act
             IList<CusipResult> results = cusipFileUtilObj.ExtractStats("SomeValidFile.txt");
@@ -64,7 +64,7 @@ namespace Q2.Test
             var fileStatsCalculator = new CusipStatsCalculator();
             var cusipFileUtilObj = new CusipFileUtil(fileManager, fileStatsCalculator);
 
-            A.CallTo(() => fileManager.ReadAsync("SomeValidFile.txt")).Returns(GenerateStreamFromString("CUSIP-1|11.11|21.56|9.3|17.18|99.99|CUSIP-2|22.22|0.5|0.1|5.8|88.88|"));
+            A.CallTo(() => fileManager.Read("SomeValidFile.txt")).Returns(GenerateStreamFromString("CUSIP-1|11.11|21.56|9.3|17.18|99.99|CUSIP-2|22.22|0.5|0.1|5.8|88.88|"));
 
             //Act
             IList<CusipResult> results = cusipFileUtilObj.ExtractStats("SomeValidFile.txt");

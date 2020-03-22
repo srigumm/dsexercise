@@ -25,7 +25,7 @@ namespace Q2
             string previousCusip = string.Empty;
             string currentCusip = string.Empty;
 
-            using (var file1Reader = _fileManager.ReadAsync(inputFilePath)) //stream content without reading entire file into memory
+            using (var file1Reader = _fileManager.Read(inputFilePath)) //stream content without reading entire file into memory
             {
                 while (!file1Reader.EndOfStream)
                 {

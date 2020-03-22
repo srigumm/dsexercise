@@ -1,4 +1,5 @@
 ﻿using Q1.Util;
+using SharedModules;
 using System;
 using System.IO;
 
@@ -6,7 +7,7 @@ namespace Q1
 {
     class Program
     {
-        static void Main(string[] args)
+        static async System.Threading.Tasks.Task Main(string[] args)
         {
             /*
              * Given two sorted files, write a C# program to merge them while preserving sort order.
@@ -26,7 +27,7 @@ namespace Q1
             var compareUtil = new CompareUtil();
             using(var sortedFilesMergeUtil = new SortedFilesMergeUtil(fileManager,compareUtil))
             {
-                sortedFilesMergeUtil.Merge(file1, file2);
+                await sortedFilesMergeUtil.MergeAsync(file1, file2);
             }
 
             Console.WriteLine("Merge complete!!");

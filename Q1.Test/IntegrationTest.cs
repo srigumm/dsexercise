@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Q1.Util;
+using SharedModules;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,7 +27,7 @@ namespace Q1.Test
 
             //Act
             using (var sortedFilesMergeUtil = new SortedFilesMergeUtil(localFileManager, new CompareUtil())) {
-                sortedFilesMergeUtil.Merge(@"Data/IntegerDataFile1.txt", @"Data/IntegerDataFile2.txt");
+                sortedFilesMergeUtil.MergeAsync(@"Data/IntegerDataFile1.txt", @"Data/IntegerDataFile2.txt");
             }
 
             //Assert
@@ -49,7 +50,7 @@ namespace Q1.Test
             //Act
             using (var sortedFilesMergeUtil = new SortedFilesMergeUtil(localFileManager, new CompareUtil()))
             {
-                sortedFilesMergeUtil.Merge(@"Data/DateTimeDataFile1.txt", @"Data/DateTimeDataFile2.txt");
+                sortedFilesMergeUtil.MergeAsync(@"Data/DateTimeDataFile1.txt", @"Data/DateTimeDataFile2.txt");
             }
 
             //Assert
@@ -72,7 +73,7 @@ namespace Q1.Test
             //Act
             using (var sortedFilesMergeUtil = new SortedFilesMergeUtil(localFileManager, new CompareUtil()))
             {
-                sortedFilesMergeUtil.Merge(@"Data/StringDataFile1.txt", @"Data/StringDataFile2.txt");
+                sortedFilesMergeUtil.MergeAsync(@"Data/StringDataFile1.txt", @"Data/StringDataFile2.txt");
             }
 
             //Assert

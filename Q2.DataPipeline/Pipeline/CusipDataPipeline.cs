@@ -23,18 +23,11 @@ namespace Q2.DataPipeline.Pipeline
         public async System.Threading.Tasks.Task RunAsync(string filePath)
         {
             /* stages for Cusip Datapipeline workflow
-             *    _______          _________________           _________________          __________          ____________
-             *   |       |       |                   |        |                 |        |          |        |            |
-             *   | Read  | ====> | Parse And Extract | ====>  | Calculate Stats | ====>  |  Display | ====>  |   Summary  |
-             *   |_______|       | _________________ |        |_________________|        |__________|        |____________|
-             *                                                |                 |      
-             *                                                | Calculate Stats |    
-             *                                                |_________________|    
-             *                                                |                 |    
-             *                                                | Calculate Stats |    
-             *                                                |_________________|    
-             *                                                
-             * 
+             *    _______          _________________           _________________          __________  
+             *   |       |       |                   |        |                 |        |          | 
+             *   | Read  | ====> | Parse And Extract | ====>  | Calculate Stats | ====>  |  Display | 
+             *   |_______|       | _________________ |        |_________________|        |__________| 
+             *                                                      
              */
             IList<string> cusipBlock = new List<string>();
             string previousCusip = string.Empty;

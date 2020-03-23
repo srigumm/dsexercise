@@ -13,7 +13,7 @@ namespace Q1.Test
     public class IntegrationTest
     {
         [TestMethod]
-        public void Should_Merge_Two_Valid_IntegerFiles()
+        public async System.Threading.Tasks.Task Should_Merge_Two_Valid_IntegerFilesAsync()
         {
             //Arrange
             var localFileManager = new LocalFileManager();
@@ -27,7 +27,7 @@ namespace Q1.Test
 
             //Act
             using (var sortedFilesMergeUtil = new SortedFilesMergeUtil(localFileManager, new CompareUtil())) {
-                sortedFilesMergeUtil.MergeAsync(@"Data/IntegerDataFile1.txt", @"Data/IntegerDataFile2.txt");
+                await sortedFilesMergeUtil.MergeAsync(@"Data/IntegerDataFile1.txt", @"Data/IntegerDataFile2.txt");
             }
 
             //Assert
@@ -35,7 +35,7 @@ namespace Q1.Test
         }
 
         [TestMethod]
-        public void Should_Merge_Two_Valid_DateTimeFiles()
+        public async System.Threading.Tasks.Task Should_Merge_Two_Valid_DateTimeFilesAsync()
         {
             //Arrange
             var localFileManager = new LocalFileManager();
@@ -50,7 +50,7 @@ namespace Q1.Test
             //Act
             using (var sortedFilesMergeUtil = new SortedFilesMergeUtil(localFileManager, new CompareUtil()))
             {
-                sortedFilesMergeUtil.MergeAsync(@"Data/DateTimeDataFile1.txt", @"Data/DateTimeDataFile2.txt");
+                await sortedFilesMergeUtil.MergeAsync(@"Data/DateTimeDataFile1.txt", @"Data/DateTimeDataFile2.txt");
             }
 
             //Assert
@@ -58,7 +58,7 @@ namespace Q1.Test
         }
 
         [TestMethod]
-        public void Should_Merge_Two_Valid_StringDataFiles()
+        public async System.Threading.Tasks.Task Should_Merge_Two_Valid_StringDataFilesAsync()
         {
             //Arrange
             var localFileManager = new LocalFileManager();
@@ -73,7 +73,7 @@ namespace Q1.Test
             //Act
             using (var sortedFilesMergeUtil = new SortedFilesMergeUtil(localFileManager, new CompareUtil()))
             {
-                sortedFilesMergeUtil.MergeAsync(@"Data/StringDataFile1.txt", @"Data/StringDataFile2.txt");
+                await sortedFilesMergeUtil.MergeAsync(@"Data/StringDataFile1.txt", @"Data/StringDataFile2.txt");
             }
 
             //Assert
